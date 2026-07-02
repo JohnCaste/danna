@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,24 +9,30 @@
   <style>
     /* ── Variables ───────────────────────────────────────────────────────── */
     :root {
-      --bg:          #0d0508;
-      --rose:        #c97b96;
-      --rose-light:  #e8b4c8;
-      --gold:        #c9a257;
-      --cream:       #f5e8ee;
-      --glass:       rgba(255,255,255,0.04);
-      --glass-border:rgba(255,255,255,0.08);
+      --bg: #0d0508;
+      --rose: #c97b96;
+      --rose-light: #e8b4c8;
+      --gold: #c9a257;
+      --cream: #f5e8ee;
+      --glass: rgba(255, 255, 255, 0.04);
+      --glass-border: rgba(255, 255, 255, 0.08);
     }
 
     /* ── Reset ───────────────────────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       min-height: 100vh;
       background: var(--bg);
       background-image:
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(180,60,100,.18) 0%, transparent 70%),
-        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(100,20,50,.12)  0%, transparent 60%);
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(180, 60, 100, .18) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(100, 20, 50, .12) 0%, transparent 60%);
       color: var(--cream);
       font-family: Georgia, 'Times New Roman', serif;
       overflow-x: hidden;
@@ -39,17 +46,32 @@
       z-index: 0;
       overflow: hidden;
     }
+
     .p {
       position: absolute;
       top: 110%;
-      color: rgba(232,180,200,.35);
+      color: rgba(232, 180, 200, .35);
       animation: flotar linear infinite;
     }
+
     @keyframes flotar {
-      0%   { transform: translateY(0) rotate(0deg);   opacity: 0; }
-      10%  { opacity: 1; }
-      90%  { opacity: .6; }
-      100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      90% {
+        opacity: .6;
+      }
+
+      100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+      }
     }
 
     /* ── Hero ────────────────────────────────────────────────────────────── */
@@ -63,10 +85,23 @@
       text-align: center;
       padding: 2rem;
     }
-    .hero-inner { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
-    .subtitulo  { font-size: 1rem; letter-spacing: .4em; color: var(--rose); font-style: italic; }
+
+    .hero-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .subtitulo {
+      font-size: 1rem;
+      letter-spacing: .4em;
+      color: var(--rose);
+      font-style: italic;
+    }
+
     .nombre {
-      font-size: clamp(4rem,15vw,9rem);
+      font-size: clamp(4rem, 15vw, 9rem);
       font-weight: 400;
       letter-spacing: .05em;
       background: linear-gradient(135deg, var(--rose-light) 0%, var(--gold) 50%, var(--rose-light) 100%);
@@ -75,11 +110,26 @@
       background-clip: text;
       line-height: 1;
     }
-    .linea { width: 80px; height: 1px; background: linear-gradient(90deg,transparent,var(--gold),transparent); }
-    .fecha  { font-size: .85rem; color: rgba(245,232,238,.45); letter-spacing: .2em; }
+
+    .linea {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .fecha {
+      font-size: .85rem;
+      color: rgba(245, 232, 238, .45);
+      letter-spacing: .2em;
+    }
 
     /* ── Sección genérica ─────────────────────────────────────────────────── */
-    section { position: relative; z-index: 1; padding: 4rem 2rem 6rem; }
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 4rem 2rem 6rem;
+    }
+
     .sec-titulo {
       text-align: center;
       font-size: .8rem;
@@ -89,7 +139,13 @@
       margin-bottom: 2.5rem;
       font-weight: 400;
     }
-    .sec-titulo::before, .sec-titulo::after { content: '──'; margin: 0 1rem; color: rgba(201,162,87,.4); }
+
+    .sec-titulo::before,
+    .sec-titulo::after {
+      content: '──';
+      margin: 0 1rem;
+      color: rgba(201, 162, 87, .4);
+    }
 
     /* ── Galería ─────────────────────────────────────────────────────────── */
     .galeria-grid {
@@ -99,9 +155,14 @@
       max-width: 1000px;
       margin: 0 auto;
     }
+
     @media (max-width: 600px) {
-      .galeria-grid { grid-template-columns: 1fr 1fr; gap: .5rem; }
+      .galeria-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: .5rem;
+      }
     }
+
     .foto-card {
       position: relative;
       aspect-ratio: 4/5;
@@ -111,23 +172,45 @@
       border: 1px solid var(--glass-border);
       transition: transform .3s, box-shadow .3s;
     }
-    .foto-card:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 12px 40px rgba(201,123,150,.2); }
+
+    .foto-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 12px 40px rgba(201, 123, 150, .2);
+    }
+
     .foto-card img {
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       display: block;
       filter: brightness(.92) saturate(1.1);
       transition: filter .3s;
     }
-    .foto-card:hover img { filter: brightness(1) saturate(1.2); }
-    .foto-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(13,5,8,.7) 0%, transparent 60%);
-      opacity: 0; transition: opacity .3s;
-      display: flex; align-items: flex-end; padding: 1rem;
+
+    .foto-card:hover img {
+      filter: brightness(1) saturate(1.2);
     }
-    .foto-card:hover .foto-overlay { opacity: 1; }
-    .foto-caption { font-size: .85rem; color: var(--cream); font-style: italic; }
+
+    .foto-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(13, 5, 8, .7) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity .3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem;
+    }
+
+    .foto-card:hover .foto-overlay {
+      opacity: 1;
+    }
+
+    .foto-caption {
+      font-size: .85rem;
+      color: var(--cream);
+      font-style: italic;
+    }
 
     /* ── Carta ───────────────────────────────────────────────────────────── */
     .carta {
@@ -140,52 +223,140 @@
       backdrop-filter: blur(6px);
       line-height: 1.85;
       font-size: 1.05rem;
-      color: rgba(245,232,238,.88);
+      color: rgba(245, 232, 238, .88);
     }
-    @media (max-width: 600px) { .carta { padding: 2rem 1.5rem; font-size: .95rem; } }
-    .carta p { margin-bottom: 1.5rem; }
-    .carta p:last-child { margin-bottom: 0; }
-    .saludo    { font-size: 1.25rem; color: var(--rose-light); font-style: italic; }
-    .despedida { margin-top: 2.5rem !important; color: rgba(245,232,238,.7); font-style: italic; }
-    .firma     { font-size: 1.4rem; color: var(--rose-light); display: block; margin-top: .3rem; }
+
+    @media (max-width: 600px) {
+      .carta {
+        padding: 2rem 1.5rem;
+        font-size: .95rem;
+      }
+    }
+
+    .carta p {
+      margin-bottom: 1.5rem;
+    }
+
+    .carta p:last-child {
+      margin-bottom: 0;
+    }
+
+    .saludo {
+      font-size: 1.25rem;
+      color: var(--rose-light);
+      font-style: italic;
+    }
+
+    .despedida {
+      margin-top: 2.5rem !important;
+      color: rgba(245, 232, 238, .7);
+      font-style: italic;
+    }
+
+    .firma {
+      font-size: 1.4rem;
+      color: var(--rose-light);
+      display: block;
+      margin-top: .3rem;
+    }
 
     /* ── Footer ──────────────────────────────────────────────────────────── */
-    footer { position: relative; z-index: 1; text-align: center; padding: 2rem; }
-    .corazon { font-size: 1.5rem; color: var(--rose); display: inline-block; animation: latir 1.4s ease-in-out infinite; }
-    @keyframes latir { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .corazon {
+      font-size: 1.5rem;
+      color: var(--rose);
+      display: inline-block;
+      animation: latir 1.4s ease-in-out infinite;
+    }
+
+    @keyframes latir {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.2);
+      }
+    }
 
     /* ── Lightbox ────────────────────────────────────────────────────────── */
     #lightbox {
       display: none;
-      position: fixed; inset: 0; z-index: 1000;
-      background: rgba(13,5,8,.92);
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(13, 5, 8, .92);
       backdrop-filter: blur(12px);
       flex-direction: column;
-      align-items: center; justify-content: center;
+      align-items: center;
+      justify-content: center;
       padding: 1.5rem;
       cursor: pointer;
       animation: fadeIn .2s ease;
     }
-    #lightbox.open { display: flex; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    #lightbox.open {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
     #lightbox img {
-      max-width: 90vw; max-height: 80vh;
-      object-fit: contain; border-radius: 4px;
-      box-shadow: 0 24px 80px rgba(0,0,0,.6);
+      max-width: 90vw;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .6);
       cursor: default;
     }
-    #lb-caption { margin-top: 1rem; font-style: italic; color: rgba(245,232,238,.6); font-size: .9rem; }
+
+    #lb-caption {
+      margin-top: 1rem;
+      font-style: italic;
+      color: rgba(245, 232, 238, .6);
+      font-size: .9rem;
+    }
+
     #cerrar {
-      position: absolute; top: 1.5rem; right: 1.5rem;
-      background: none; border: 1px solid var(--glass-border); color: var(--cream);
-      font-size: 1.1rem; width: 2.2rem; height: 2.2rem;
-      border-radius: 50%; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: none;
+      border: 1px solid var(--glass-border);
+      color: var(--cream);
+      font-size: 1.1rem;
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: background .2s;
     }
-    #cerrar:hover { background: var(--glass); }
+
+    #cerrar:hover {
+      background: var(--glass);
+    }
   </style>
 </head>
+
 <body>
 
   <!-- Partículas -->
@@ -234,7 +405,7 @@
       <!-- ═══════════════════════════════════════════════════════════════════ -->
 
       <p class="despedida">
-        Con todo mi amor,<br/>
+        Con todo mi amor,<br />
         <span class="firma">Jonathan</span>
       </p>
     </article>
@@ -258,12 +429,12 @@
     // caption → texto que aparece al pasar el cursor (déjalo vacío si no quieres)
     // ═══════════════════════════════════════════════════════════════════════
     const fotos = [
-      { src: 'URL_FOTO_1', caption: '' },
-      { src: 'URL_FOTO_2', caption: '' },
-      { src: 'URL_FOTO_3', caption: '' },
-      { src: 'URL_FOTO_4', caption: '' },
-      { src: 'URL_FOTO_5', caption: '' },
-      { src: 'URL_FOTO_6', caption: '' },
+      { src: 'https://storage.googleapis.com/itdar_assets/fotos/uno.jpeg', caption: '' },
+      { src: 'https://storage.googleapis.com/itdar_assets/fotos/tres.jpeg', caption: '' },
+      { src: 'https://storage.googleapis.com/itdar_assets/fotos/siete.jpeg', caption: '' },
+      { src: 'https://storage.googleapis.com/itdar_assets/fotos/seis.jpeg', caption: '' },
+      { src: 'https://storage.googleapis.com/itdar_assets/fotos/ocho.jpeg', caption: '' },
+      { src: 'https://storage.googleapis.com/itdar_assets/fotos/cuatro.jpeg', caption: '' },
     ];
     // ═══════════════════════════════════════════════════════════════════════
 
@@ -278,10 +449,10 @@
       const s = document.createElement('span');
       s.className = 'p';
       s.textContent = simbolos[i % 3];
-      s.style.left             = ((i * 137.5) % 100) + '%';
-      s.style.fontSize         = (.6 + (i % 4) * .2) + 'rem';
-      s.style.animationDelay   = ((i * .7) % 8) + 's';
-      s.style.animationDuration= (6 + (i % 5)) + 's';
+      s.style.left = ((i * 137.5) % 100) + '%';
+      s.style.fontSize = (.6 + (i % 4) * .2) + 'rem';
+      s.style.animationDelay = ((i * .7) % 8) + 's';
+      s.style.animationDuration = (6 + (i % 5)) + 's';
       cont.appendChild(s);
     }
 
@@ -291,17 +462,17 @@
       const card = document.createElement('div');
       card.className = 'foto-card';
       card.innerHTML = `
-        <img src="${f.src}" alt="${f.caption || 'Foto ' + (i+1)}" loading="lazy" />
+        <img src="${f.src}" alt="${f.caption || 'Foto ' + (i + 1)}" loading="lazy" />
         <div class="foto-overlay"><span class="foto-caption">${f.caption}</span></div>`;
       card.addEventListener('click', () => abrirLightbox(i));
       grid.appendChild(card);
     });
 
     // Lightbox
-    const lb      = document.getElementById('lightbox');
-    const lbImg   = document.getElementById('lb-img');
-    const lbCap   = document.getElementById('lb-caption');
-    const cerrar  = document.getElementById('cerrar');
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    const lbCap = document.getElementById('lb-caption');
+    const cerrar = document.getElementById('cerrar');
 
     function abrirLightbox(i) {
       lbImg.src = fotos[i].src;
@@ -317,4 +488,5 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarLightbox(); });
   </script>
 </body>
+
 </html>

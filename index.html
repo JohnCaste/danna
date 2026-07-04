@@ -479,6 +479,9 @@
     <div class="cr-linea"></div>
   </div>
 
+  <!-- Contenido principal (oculto hasta el 9 de agosto) -->
+  <div id="contenido-principal" style="display:none">
+
   <!-- Partículas -->
   <div id="particulas"></div>
 
@@ -535,6 +538,8 @@
     <span class="corazon">♡</span>
   </footer>
 
+  </div><!-- fin contenido-principal -->
+
   <!-- Lightbox -->
   <div id="lightbox">
     <button id="cerrar">✕</button>
@@ -573,16 +578,20 @@
     // ── Cuenta regresiva ───────────────────────────────────────────────────
     const FECHA_REVEAL = new Date('2026-08-09T00:00:00');
 
+    const contenido = document.getElementById('contenido-principal');
+
     function actualizarContador() {
       const ahora = new Date();
       const diff = FECHA_REVEAL - ahora;
 
       if (diff <= 0) {
         document.getElementById('cuenta-regresiva').classList.remove('activo');
+        contenido.style.display = 'block';
         return;
       }
 
       document.getElementById('cuenta-regresiva').classList.add('activo');
+      contenido.style.display = 'none';
 
       const dias  = Math.floor(diff / 86400000);
       const horas = Math.floor((diff % 86400000) / 3600000);

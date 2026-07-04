@@ -354,10 +354,130 @@
     #cerrar:hover {
       background: var(--glass);
     }
+
+    /* ── Pantalla de cuenta regresiva ───────────────────────────────────────── */
+    #cuenta-regresiva {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(180, 60, 100, .18) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(100, 20, 50, .12) 0%, transparent 60%);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    #cuenta-regresiva.activo { display: flex; }
+
+    .cr-titulo {
+      font-size: .85rem;
+      letter-spacing: .5em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .cr-nombre {
+      font-size: clamp(2.5rem, 10vw, 5rem);
+      font-weight: 400;
+      background: linear-gradient(135deg, var(--rose-light) 0%, var(--gold) 50%, var(--rose-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .cr-subtitulo {
+      font-size: .95rem;
+      color: rgba(245, 232, 238, .5);
+      font-style: italic;
+      margin-bottom: 3rem;
+    }
+
+    .cr-bloques {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .cr-bloque {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .4rem;
+    }
+
+    .cr-numero {
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-weight: 400;
+      color: var(--cream);
+      line-height: 1;
+      min-width: 2ch;
+      text-align: center;
+    }
+
+    .cr-label {
+      font-size: .7rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--rose);
+    }
+
+    .cr-separador {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      color: rgba(201, 162, 87, .3);
+      align-self: flex-start;
+      padding-top: .3rem;
+    }
+
+    .cr-linea {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 auto;
+    }
   </style>
 </head>
 
 <body>
+
+  <!-- Cuenta regresiva -->
+  <div id="cuenta-regresiva">
+    <div id="particulas-cr"></div>
+    <p class="cr-titulo">algo especial te espera</p>
+    <h1 class="cr-nombre">Danna</h1>
+    <p class="cr-subtitulo">el 9 de agosto todo estará listo para ti</p>
+    <div class="cr-bloques">
+      <div class="cr-bloque">
+        <span class="cr-numero" id="cr-dias">--</span>
+        <span class="cr-label">días</span>
+      </div>
+      <span class="cr-separador">:</span>
+      <div class="cr-bloque">
+        <span class="cr-numero" id="cr-horas">--</span>
+        <span class="cr-label">horas</span>
+      </div>
+      <span class="cr-separador">:</span>
+      <div class="cr-bloque">
+        <span class="cr-numero" id="cr-min">--</span>
+        <span class="cr-label">minutos</span>
+      </div>
+      <span class="cr-separador">:</span>
+      <div class="cr-bloque">
+        <span class="cr-numero" id="cr-seg">--</span>
+        <span class="cr-label">segundos</span>
+      </div>
+    </div>
+    <div class="cr-linea"></div>
+  </div>
 
   <!-- Partículas -->
   <div id="particulas"></div>
@@ -431,24 +551,53 @@
     const fotos = [
       { src: 'uno.jpeg', caption: '' },
       { src: 'tres.jpeg', caption: '' },
-      { src: 'siete.jpeg', caption: '' },
-      { src: 'seis.jpeg', caption: '' },
-      { src: 'ocho.jpeg', caption: '' },
       { src: 'cuatro.jpeg', caption: '' },
+      { src: 'doce.jpeg', caption: '' },
+      { src: 'diez.jpeg', caption: '' },
+      { src: 'siete.jpeg', caption: '' },
       { src: 'dos.jpeg', caption: '' },
       { src: 'cinco.jpeg', caption: '' },
-      { src: 'diez.jpeg', caption: '' },
+      { src: 'quinece.jpeg', caption: '' },
       { src: 'once.jpeg', caption: '' },
-      { src: 'doce.jpeg', caption: '' },
+      { src: 'seis.jpeg', caption: '' },
       { src: 'trece.jpeg', caption: '' },
       { src: 'catorce.jpeg', caption: '' },
-      { src: 'quinece.jpeg', caption: '' },
+      { src: 'ocho.jpeg', caption: '' },
       { src: 'asombra.jpeg', caption: '' },
     ];
     // ═══════════════════════════════════════════════════════════════════════
 
     // Fecha en español
     document.getElementById('fecha-hoy').textContent = '9 de agosto de 2026';
+
+    // ── Cuenta regresiva ───────────────────────────────────────────────────
+    const FECHA_REVEAL = new Date('2026-08-09T00:00:00');
+
+    function actualizarContador() {
+      const ahora = new Date();
+      const diff = FECHA_REVEAL - ahora;
+
+      if (diff <= 0) {
+        document.getElementById('cuenta-regresiva').classList.remove('activo');
+        return;
+      }
+
+      document.getElementById('cuenta-regresiva').classList.add('activo');
+
+      const dias  = Math.floor(diff / 86400000);
+      const horas = Math.floor((diff % 86400000) / 3600000);
+      const min   = Math.floor((diff % 3600000) / 60000);
+      const seg   = Math.floor((diff % 60000) / 1000);
+
+      document.getElementById('cr-dias').textContent  = String(dias).padStart(2, '0');
+      document.getElementById('cr-horas').textContent = String(horas).padStart(2, '0');
+      document.getElementById('cr-min').textContent   = String(min).padStart(2, '0');
+      document.getElementById('cr-seg').textContent   = String(seg).padStart(2, '0');
+    }
+
+    actualizarContador();
+    setInterval(actualizarContador, 1000);
+    // ──────────────────────────────────────────────────────────────────────
 
     // Partículas
     const simbolos = ['✦', '♡', '·'];

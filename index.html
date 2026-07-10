@@ -372,7 +372,9 @@
       padding: 2rem;
     }
 
-    #cuenta-regresiva.activo { display: flex; }
+    #cuenta-regresiva.activo {
+      display: flex;
+    }
 
     .cr-titulo {
       font-size: .85rem;
@@ -481,61 +483,78 @@
 
   <div id="contenido-principal">
 
-  <!-- Partículas -->
-  <div id="particulas"></div>
+    <!-- Partículas -->
+    <div id="particulas"></div>
 
-  <!-- Hero -->
-  <section id="hero">
-    <div class="hero-inner">
-      <p class="subtitulo">para ti,</p>
-      <h1 class="nombre">Danna</h1>
-      <div class="linea"></div>
-      <p class="fecha" id="fecha-hoy"></p>
-    </div>
-  </section>
+    <!-- Hero -->
+    <section id="hero">
+      <div class="hero-inner">
+        <p class="subtitulo">para ti,</p>
+        <h1 class="nombre">Danna</h1>
+        <div class="linea"></div>
+        <p class="fecha" id="fecha-hoy"></p>
+      </div>
+    </section>
 
-  <!-- Galería -->
-  <section id="galeria">
-    <h2 class="sec-titulo">nosotros</h2>
-    <div class="galeria-grid" id="galeria-grid">
-      <!-- Las fotos se generan desde el script -->
-    </div>
-  </section>
+    <!-- Galería -->
+    <section id="galeria">
+      <h2 class="sec-titulo">nosotros</h2>
+      <div class="galeria-grid" id="galeria-grid">
+        <!-- Las fotos se generan desde el script -->
+      </div>
+    </section>
 
-  <!-- Carta -->
-  <section id="carta-sec">
-    <h2 class="sec-titulo">una carta para ti</h2>
-    <article class="carta">
-      <p class="saludo">Mi amor,</p>
+    <!-- Carta -->
+    <section id="carta-sec">
+      <h2 class="sec-titulo">una carta para ti</h2>
+      <article class="carta">
+        <p class="saludo">09 de agosto,</p>
 
-      <!-- ═══════════════════════════════════════════════════════════════════
+        <!-- ═══════════════════════════════════════════════════════════════════
            ESCRIBE TU CARTA AQUÍ — cada <p> es un párrafo nuevo
            ═══════════════════════════════════════════════════════════════════ -->
 
-      <p>
-        <!-- Párrafo 1 -->
-      </p>
+        <p>
+          ... Pareciera que la vida es un sinsentido que nos hace correr de aquí para allá, un camino por el que
+          transitamos sin rumbo y en muchas ocasiones terminamos perdiendonos
+          como quisiera saber, tan solo por un instante que estoy en el camino correcto, que mis decisiones no erraran
+          el blanco y que mi punteria no fallara.
+          Quisiera por un tiempo detenerme y contemplar todo lo que me rodea, sin prisa, sin miedo, sin caos.
+          ¿Qué es lo que le da a uno el deseo de vivir?
+          ¿Qué es lo que nos hace sentir que estamos en el camino correcto?
+          Caminando encontramos más preguntas que respuestas, más dudas que certezas, más incertidumbre que seguridad.
 
-      <p>
-        <!-- Párrafo 2 -->
-      </p>
+        </p>
 
-      <p>
-        <!-- Párrafo 3 -->
-      </p>
+        <p>
+          Contemplar lo que viene y pensar que quizá no existe realmente un camino correcto es un acto de fé, un
+          sentimiento que impulsa lo que somos a seguir adelante
+          y sin la certeza de saber que saldra bien existe la esperanza de que todo lo que nos rodea nos hace sentir
+          vivos.
+          Prefiero equivocarme en el camino que dudar y nunca intentarlo.
+        </p>
 
-      <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <p>
+          Caminemos, caminemos juntos y sin miedo, sin prisa, sin caos.
+          No eres el motivo de mi felicidad, porque tendría que robarle el lugar a DIos, sin embargo, eres parte de
+          ella.
+          Cuando el miedo empiece a invadirte no olvides tomar mi mano.
+          Aún perdidos en la oscuridad la luz resplandece.
 
-      <p class="despedida">
-        Con todo mi amor,<br />
-        <span class="firma">Jonathan</span>
-      </p>
-    </article>
-  </section>
+        </p>
 
-  <footer>
-    <span class="corazon">♡</span>
-  </footer>
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+        <p class="despedida">
+          Con cariño,<br />
+          <span class="firma">Jonathan</span>
+        </p>
+      </article>
+    </section>
+
+    <footer>
+      <span class="corazon">♡</span>
+    </footer>
 
   </div><!-- fin contenido-principal -->
 
@@ -568,6 +587,10 @@
       { src: 'catorce.jpeg', caption: '' },
       { src: 'ocho.jpeg', caption: '' },
       { src: 'asombra.jpeg', caption: '' },
+      { src: 'dieci.jpeg', caption: '' },
+      { src: 'dieoco.jpeg', caption: '' },
+      { src: 'dienue.jpeg', caption: '' },
+      { src: 'diedoce.jpeg', caption: '' },
     ];
     // ═══════════════════════════════════════════════════════════════════════
 
@@ -592,15 +615,15 @@
       document.getElementById('cuenta-regresiva').classList.add('activo');
       contenido.style.display = 'none';
 
-      const dias  = Math.floor(diff / 86400000);
+      const dias = Math.floor(diff / 86400000);
       const horas = Math.floor((diff % 86400000) / 3600000);
-      const min   = Math.floor((diff % 3600000) / 60000);
-      const seg   = Math.floor((diff % 60000) / 1000);
+      const min = Math.floor((diff % 3600000) / 60000);
+      const seg = Math.floor((diff % 60000) / 1000);
 
-      document.getElementById('cr-dias').textContent  = String(dias).padStart(2, '0');
+      document.getElementById('cr-dias').textContent = String(dias).padStart(2, '0');
       document.getElementById('cr-horas').textContent = String(horas).padStart(2, '0');
-      document.getElementById('cr-min').textContent   = String(min).padStart(2, '0');
-      document.getElementById('cr-seg').textContent   = String(seg).padStart(2, '0');
+      document.getElementById('cr-min').textContent = String(min).padStart(2, '0');
+      document.getElementById('cr-seg').textContent = String(seg).padStart(2, '0');
     }
 
     // actualizarContador();

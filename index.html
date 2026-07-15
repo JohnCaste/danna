@@ -873,7 +873,7 @@
     <div class="cr-linea"></div>
   </div>
 
-  <div id="contenido-principal">
+  <div id="contenido-principal" style="display:none">
 
     <!-- Partículas -->
     <div id="particulas"></div>
@@ -1068,8 +1068,8 @@
       document.getElementById('cr-seg').textContent = String(seg).padStart(2, '0');
     }
 
-    // actualizarContador();
-    // setInterval(actualizarContador, 1000);
+    actualizarContador();
+    setInterval(actualizarContador, 1000);
     // ──────────────────────────────────────────────────────────────────────
 
     // Sobre de la carta: abrir al hacer clic

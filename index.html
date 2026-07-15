@@ -446,6 +446,158 @@
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
       margin: 0 auto;
     }
+
+    /* ── Sobre de la carta ──────────────────────────────────────────────────── */
+    .sobre-wrapper {
+      perspective: 1400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 660px;
+      margin: 0 auto;
+    }
+
+    .sobre {
+      position: relative;
+      width: min(360px, 86vw);
+      height: 236px;
+      cursor: pointer;
+      border-radius: 8px;
+      background: linear-gradient(150deg, #3a1d2b 0%, #2a1420 100%);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .04);
+      transform-style: preserve-3d;
+      transition:
+        transform .55s cubic-bezier(.4, 0, .2, 1) .5s,
+        opacity .55s ease .5s,
+        height .5s ease .85s,
+        margin .5s ease .85s;
+    }
+
+    /* pliegues diagonales decorativos del bolsillo */
+    .sobre::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      z-index: 2;
+      background:
+        linear-gradient(45deg, transparent 49.5%, rgba(255, 255, 255, .05) 49.8%, rgba(255, 255, 255, .05) 50.2%, transparent 50.5%),
+        linear-gradient(-45deg, transparent 49.5%, rgba(255, 255, 255, .05) 49.8%, rgba(255, 255, 255, .05) 50.2%, transparent 50.5%);
+      pointer-events: none;
+    }
+
+    /* solapa superior que se abre */
+    .solapa {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 55%;
+      background: linear-gradient(160deg, #4a2536 0%, #37192a 100%);
+      transform-origin: top center;
+      transition: transform .6s cubic-bezier(.6, 0, .2, 1), z-index 0s .3s;
+      z-index: 4;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+    }
+
+    /* sello de cera */
+    .sello {
+      position: absolute;
+      top: 46%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, var(--rose-light), var(--rose) 70%);
+      color: #3a1420;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      z-index: 5;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, .4);
+      transition: opacity .3s ease, transform .3s ease;
+    }
+
+    .sobre-hint {
+      margin-top: 1.3rem;
+      font-size: .75rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--rose);
+      font-style: italic;
+      overflow: hidden;
+      animation: pulso 2s ease-in-out infinite;
+      transition: opacity .3s ease, height .4s ease, margin .4s ease;
+    }
+
+    @keyframes pulso {
+      0%, 100% { opacity: .4; }
+      50%      { opacity: 1; }
+    }
+
+    /* estado ABIERTO */
+    .sobre-wrapper.abierto .solapa {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    .sobre-wrapper.abierto .sello {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(.5);
+    }
+
+    .sobre-wrapper.abierto .sobre {
+      transform: scale(.75);
+      opacity: 0;
+      height: 0;
+      margin-bottom: 0;
+      pointer-events: none;
+    }
+
+    .sobre-wrapper.abierto .sobre-hint {
+      opacity: 0;
+      height: 0;
+      margin: 0;
+    }
+
+    /* la carta empieza oculta dentro del sobre */
+    .sobre-wrapper .carta {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      padding-top: 0;
+      padding-bottom: 0;
+      border-width: 0;
+      transform: translateY(26px);
+      pointer-events: none;
+      transition:
+        max-height .9s ease .55s,
+        opacity .6s ease .65s,
+        transform .8s ease .55s,
+        padding .6s ease .55s,
+        border-width .3s ease .55s;
+    }
+
+    .sobre-wrapper.abierto .carta {
+      max-height: 3000px;
+      opacity: 1;
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+      border-width: 1px;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    @media (max-width: 600px) {
+      .sobre-wrapper.abierto .carta {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+      }
+    }
   </style>
 </head>
 
@@ -507,6 +659,14 @@
     <!-- Carta -->
     <section id="carta-sec">
       <h2 class="sec-titulo">una carta para ti</h2>
+
+      <div class="sobre-wrapper" id="sobre-wrapper">
+        <div class="sobre" id="sobre">
+          <div class="solapa"></div>
+          <div class="sello">♡</div>
+        </div>
+        <p class="sobre-hint">toca para abrir</p>
+
       <article class="carta">
         <p class="saludo">09 de agosto,</p>
 
@@ -550,6 +710,7 @@
           <span class="firma">Jonathan</span>
         </p>
       </article>
+      </div><!-- fin sobre-wrapper -->
     </section>
 
     <footer>
@@ -631,6 +792,15 @@
     // actualizarContador();
     // setInterval(actualizarContador, 1000);
     // ──────────────────────────────────────────────────────────────────────
+
+    // Sobre de la carta: abrir al hacer clic
+    const sobre = document.getElementById('sobre');
+    const sobreWrapper = document.getElementById('sobre-wrapper');
+    if (sobre && sobreWrapper) {
+      sobre.addEventListener('click', () => {
+        sobreWrapper.classList.add('abierto');
+      });
+    }
 
     // Partículas
     const simbolos = ['✦', '✧', '⋆', '★', '·'];

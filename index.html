@@ -575,6 +575,60 @@
       .carrusel-btn.next { right: .5rem; }
     }
 
+    /* ── Rasca para descubrir ───────────────────────────────────────────────── */
+    .rasca {
+      position: relative;
+      width: min(420px, 88vw);
+      height: 200px;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, .4);
+    }
+
+    .rasca-premio {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1.5rem;
+      background:
+        radial-gradient(circle at 50% 40%, rgba(201, 123, 150, .18), transparent 70%),
+        var(--glass);
+    }
+
+    .rasca-premio p {
+      font-size: 1.25rem;
+      color: var(--rose-light);
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    .rasca-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .rasca-canvas:active { cursor: grabbing; }
+
+    .rasca-hint {
+      text-align: center;
+      margin-top: 1.2rem;
+      font-size: .75rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--rose);
+      font-style: italic;
+      animation: pulso 2s ease-in-out infinite;
+    }
+
     /* ── Sobre de la carta ──────────────────────────────────────────────────── */
     .sobre-wrapper {
       perspective: 1400px;
@@ -802,7 +856,7 @@
       <div class="sobre-wrapper" id="sobre-wrapper">
         <div class="sobre" id="sobre">
           <div class="solapa"></div>
-          <div class="sello">♡</div>
+          <div class="sello"></div>
         </div>
         <p class="sobre-hint">toca para abrir</p>
 
@@ -850,6 +904,18 @@
         </p>
       </article>
       </div><!-- fin sobre-wrapper -->
+    </section>
+
+    <!-- Rasca para descubrir -->
+    <section id="rasca-sec">
+      <h2 class="sec-titulo">rasca para descubrir</h2>
+      <div class="rasca" id="rasca">
+        <div class="rasca-premio">
+          <p>Hoy toca el regalo #8,<br />que lo disfrutes ♡</p>
+        </div>
+        <canvas class="rasca-canvas" id="rasca-canvas"></canvas>
+      </div>
+      <p class="rasca-hint" id="rasca-hint">rasca con el dedo o el cursor</p>
     </section>
 
     <footer>
@@ -1073,6 +1139,72 @@
       if (Math.abs(dx) > 50) { dx < 0 ? lbSiguiente() : lbAnterior(); }
       touchX = null;
     }, { passive: true });
+
+    // ── Rasca para descubrir ───────────────────────────────────────────────
+    const rascaEl = document.getElementById('rasca');
+    const canvas = document.getElementById('rasca-canvas');
+    if (rascaEl && canvas) {
+      const ctx = canvas.getContext('2d');
+      let rascando = false;
+      let revelado = false;
+
+      function pintarCapa() {
+        const rect = rascaEl.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+        ctx.globalCompositeOperation = 'source-over';
+        const g = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        g.addColorStop(0, '#4a2536');
+        g.addColorStop(1, '#2a1420');
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(201, 162, 87, .55)';
+        ctx.font = 'italic 600 18px Georgia, serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('✦ rasca aquí ✦', canvas.width / 2, canvas.height / 2);
+        ctx.globalCompositeOperation = 'destination-out';
+      }
+      pintarCapa();
+
+      function posicion(e) {
+        const rect = canvas.getBoundingClientRect();
+        return {
+          x: (e.clientX - rect.left) * (canvas.width / rect.width),
+          y: (e.clientY - rect.top) * (canvas.height / rect.height),
+        };
+      }
+      function rascar(e) {
+        const p = posicion(e);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 24, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      function porcentajeRascado() {
+        const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+        let limpios = 0, total = 0;
+        for (let i = 3; i < data.length; i += 4 * 40) {
+          total++;
+          if (data[i] === 0) limpios++;
+        }
+        return limpios / total;
+      }
+      function revisarRevelado() {
+        if (revelado) return;
+        if (porcentajeRascado() > 0.5) {
+          revelado = true;
+          canvas.style.transition = 'opacity .6s ease';
+          canvas.style.opacity = '0';
+          setTimeout(() => { canvas.style.display = 'none'; }, 600);
+          const hint = document.getElementById('rasca-hint');
+          if (hint) hint.style.display = 'none';
+        }
+      }
+
+      canvas.addEventListener('pointerdown', e => { rascando = true; rascar(e); });
+      canvas.addEventListener('pointermove', e => { if (rascando) rascar(e); });
+      window.addEventListener('pointerup', () => { if (rascando) { rascando = false; revisarRevelado(); } });
+    }
   </script>
 </body>
 
